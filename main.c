@@ -1,26 +1,104 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<stdbool.h>
 enum player{
-    player1,
-    player2
+    player_X,
+    player_O
 };
 
-void display(int board[3][3])
+void displayboard(char board[3][3])
 {
     for(int i = 0; i<3; i++)
     {
         for(int j =0; j<3; j++)
         {
-            printf("[%d]", board[i][j]);
+            printf("[%c]", board[i][j]);
         }
         printf("\n");
     }
 }
+int makemove(enum player p,char board[3][3])
+{
+    int a,b;
+    if(p == 1)
+    {
+        printf("Enter position: ");
+        scanf("%d,%d",&a,&b);
+        if(board[a][b] == '-')
+        {
+            board[a][b] = 'X';
+            return  1;
+        }else{
+            printf("Invalid position\n");
+            return -1;
+        }
+    }
+}
+char Wincheck(char board[3][3])
+{
+    for(int i = 0;i<3; i++)
+    {
+        if(board[i][0] == board[i][1] &&board[i][1] == board[i][2])
+        return board[i][0];
+    }
+    for(int j =0;j<3; j++)
+    {
+        if(board[0][j] == board[1][j] && board[1][j] == board[2][j])
+        {
+            return board[j][0];
+        }
+    }
+
+    if(board[1][1] == board[2][2] && board[0][0] == board[1][1])
+    {
+        return board[1][1];
+    }
+    if(board[0][2] == board[1][1] && board[1][1] == board[2][0])
+    {
+        return board[1][1];
+    }
+
+    return ' ';
+}
 int main()
 {
     enum player p;
-    int arr[3][3];
-    printf("TIC-TAC-TOE");
-    display(arr);
+    char arr[3][3];
+    for(int i = 0; i<3; i++)
+    {
+        for(int j = 0; j<3; j++)
+        {
+            arr[i][j] = '-';
+        }
+    }
+    char s[3];
+    printf("Play?");
+    scanf("%s", s);
+    if(s == "yes" || s == "Yes"  || s == "YES" || s == "yEs" || s == "yeS" || s == "YEs"|| s == "yES")
+    {
+        displayboard(arr);
+     bool exit;
+    printf("TIC-TAC-TOE\n");
+    // printf("enter 0000 to exit\n");
+    for(int i = 0; i<6;i++)
+    {
+        if(i%2 == 0)
+        {
+            int n =makemove(player_X, arr);
+            if(n == -1)
+            {
+                i--;
+            }
+        }else{
+            int n= makemove(player_O,arr);
+            if(n == -1)
+            {
+                i--;
+            }
+        }
+    }
 
-}
+    }
+   
+    }
+
